@@ -4,7 +4,126 @@
 <title><![CDATA[qblade's blog]]></title>
 <description><![CDATA[qblade's blog]]></description>
 <link>https://qbladea.github.io/</link>
-<lastBuildDate>Sun, 21 Feb 2021 08:07:11 +0000</lastBuildDate>
+<lastBuildDate>Sun, 28 Feb 2021 05:38:48 +0000</lastBuildDate>
+<item>
+  <title><![CDATA[使用安卓手机作为PluseAudio的输出方式]]></title>
+  <description><![CDATA[
+<p>
+由于最近给Guix打包ekho,而我的chromebook声卡被我玩alsamixer损坏了,
+所以在Github找到这么一个项目: <a href="https://github.com/wenxin-wang/PulseDroidRtp">https://github.com/wenxin-wang/PulseDroidRtp</a>
+</p>
+
+<div id="outline-container-org881296d" class="outline-2">
+<h2 id="org881296d">安卓端</h2>
+<div class="outline-text-2" id="text-org881296d">
+</div>
+<div id="outline-container-orgc9224b8" class="outline-3">
+<h3 id="orgc9224b8">安装</h3>
+<div class="outline-text-3" id="text-orgc9224b8">
+<ol class="org-ol">
+<li>在FDroid下载安装包:</li>
+</ol>
+
+<pre class="example">
+https://f-droid.org/packages/me.wenxinwang.pulsedroidrtp/
+</pre>
+
+<ol class="org-ol">
+<li>安装安装包</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgd53e6e1" class="outline-3">
+<h3 id="orgd53e6e1">配置</h3>
+<div class="outline-text-3" id="text-orgd53e6e1">
+<ol class="org-ol">
+<li>打开软件</li>
+<li>设置IP字段为手机的IP地址(WIFI地址,USB共享网络地址,蓝牙共享网络地址)</li>
+<li>设置端口(可选)</li>
+<li>将手机系统的省电优化中找到应用并关闭省电设置</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org7e8c9fe" class="outline-3">
+<h3 id="org7e8c9fe">启动</h3>
+<div class="outline-text-3" id="text-org7e8c9fe">
+<ol class="org-ol">
+<li>打开软件</li>
+<li>点PLAY按钮</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge814d21" class="outline-2">
+<h2 id="orge814d21">Linux PulseAudio 端</h2>
+<div class="outline-text-2" id="text-orge814d21">
+</div>
+<div id="outline-container-orgd05820c" class="outline-3">
+<h3 id="orgd05820c">安装PulseAudio</h3>
+<div class="outline-text-3" id="text-orgd05820c">
+<p>
+不同发行的操作不同，具体请查看发行的Wiki
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgdbbd0ab" class="outline-3">
+<h3 id="orgdbbd0ab">安装Alsa的PulseAudio插件 (可选)</h3>
+<div class="outline-text-3" id="text-orgdbbd0ab">
+<p>
+不同发行的操作不同，具体请查看发行的Wiki
+</p>
+
+<p>
+如果不安装插件,一些只有Alsa的支持的程序将无法使用
+</p>
+</div>
+</div>
+
+<div id="outline-container-org43e6070" class="outline-3">
+<h3 id="org43e6070">PulseAudio设定使用RTP模块</h3>
+<div class="outline-text-3" id="text-org43e6070">
+<div class="org-src-container">
+<pre class="src src-shell">pactl unload-module module-null-sink
+pactl unload-module module-rtp-send
+pactl load-module module-null-sink sink_name=rtp format=s16be channels=2 rate=48000
+pactl load-module module-rtp-send source=rtp.monitor destination=安卓端的IP地址 port=安卓端的端口设定 mtu=320
+</pre>
+</div>
+
+<p>
+<b>提示：</b>
+</p>
+<blockquote>
+<p>
+参数如有需要请自己调整
+</p>
+</blockquote>
+</div>
+</div>
+
+<div id="outline-container-org96e9c45" class="outline-3">
+<h3 id="org96e9c45">播放音频</h3>
+<div class="outline-text-3" id="text-org96e9c45">
+<p>
+此时应该可以播放音频并通过手机发声了
+</p>
+</div>
+</div>
+</div>
+<div class="taglist"><a href="https://qbladea.github.io/tags.html">Tags</a>: <a href="https://qbladea.github.io/tag-pulseaudio.html">pulseaudio</a> <a href="https://qbladea.github.io/tag-audio.html">audio</a> <a href="https://qbladea.github.io/tag-android.html">android</a> <a href="https://qbladea.github.io/tag-rtp.html">rtp</a> <a href="https://qbladea.github.io/tag-stream.html">stream</a> <a href="https://qbladea.github.io/tag-alsa.html">alsa</a> </div>]]></description>
+  <category><![CDATA[pulseaudio]]></category>
+  <category><![CDATA[audio]]></category>
+  <category><![CDATA[android]]></category>
+  <category><![CDATA[rtp]]></category>
+  <category><![CDATA[stream]]></category>
+  <category><![CDATA[alsa]]></category>
+  <link>https://qbladea.github.io/2021-02-28-use-pulseaudio-rtp-stream-audio-to-android.html</link>
+  <pubDate>Sun, 28 Feb 2021 05:19:00 +0000</pubDate>
+</item>
 <item>
   <title><![CDATA[TEST SITE]]></title>
   <description><![CDATA[

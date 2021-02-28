@@ -1,0 +1,60 @@
+#+title: 使用安卓手机作为PluseAudio的输出方式
+#+date: <2021-02-28 05:19>
+#+filetags: pulseaudio audio android rtp stream alsa 
+
+由于最近给Guix打包ekho,而我的chromebook声卡被我玩alsamixer损坏了,
+所以在Github找到这么一个项目: https://github.com/wenxin-wang/PulseDroidRtp
+
+* 安卓端
+
+** 安装
+
+   1. 在FDroid下载安装包:
+
+   #+BEGIN_SRC
+      https://f-droid.org/packages/me.wenxinwang.pulsedroidrtp/
+   #+END_SRC
+
+   2. 安装安装包
+
+** 配置
+
+   1. 打开软件
+   2. 设置IP字段为手机的IP地址(WIFI地址,USB共享网络地址,蓝牙共享网络地址)
+   3. 设置端口(可选)
+   4. 将手机系统的省电优化中找到应用并关闭省电设置
+
+** 启动
+
+   1. 打开软件
+   2. 点PLAY按钮
+
+* Linux PulseAudio 端
+
+** 安装PulseAudio
+   
+   不同发行的操作不同，具体请查看发行的Wiki
+
+** 安装Alsa的PulseAudio插件 (可选)
+
+   不同发行的操作不同，具体请查看发行的Wiki
+
+   如果不安装插件,一些只有Alsa的支持的程序将无法使用
+
+** PulseAudio设定使用RTP模块
+
+   #+BEGIN_SRC shell
+     pactl unload-module module-null-sink
+     pactl unload-module module-rtp-send
+     pactl load-module module-null-sink sink_name=rtp format=s16be channels=2 rate=48000
+     pactl load-module module-rtp-send source=rtp.monitor destination=安卓端的IP地址 port=安卓端的端口设定 mtu=320
+   #+END_SRC
+
+*提示：*
+#+begin_quote
+  参数如有需要请自己调整
+#+end_quote
+
+** 播放音频
+   
+   此时应该可以播放音频并通过手机发声了
